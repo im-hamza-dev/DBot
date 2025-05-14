@@ -1,0 +1,2 @@
+# DBot
+Query your Database
