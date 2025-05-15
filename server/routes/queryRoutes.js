@@ -3,6 +3,6 @@ import { generateQuery } from "../controllers/queryController.js";
 
 const router = express.Router();
 
-router.route("/").get(generateQuery);
+router.route("/").post(generateQuery);
 
 export default router;

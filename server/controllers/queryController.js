@@ -66,6 +66,9 @@ const sqlQueryGeneratorChain = RunnableSequence.from([
 ]);
 
 const langchainIntegeration = async (queryStatement) => {
+  let test = await db.getTableInfo();
+  console.log("checking statement", queryStatement, test);
+  return;
   const finalResponsePrompt =
     PromptTemplate.fromTemplate(`Based on the table schema below, question, sql query, and sql response, write a natural language response:
         {schema}
