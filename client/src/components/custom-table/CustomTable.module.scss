@@ -1,0 +1,66 @@
+.customTable {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    font-family: "Inter", sans-serif;
+    border: 1px solid #e5e7eb !important;
+
+    th {
+      background: #eceff3;
+      text-align: left;
+      font-weight: 600;
+      padding: 12px 24px;
+      color: #667085;
+      font-size: 12px;
+      height: 42px;
+    }
+
+    td {
+      padding: 12px 24px;
+      font-size: 14px;
+      color: #667085;
+      border-top: 1px solid #e5e7eb;
+      height: 72px;
+    }
+
+    tr {
+      text-align: left;
+      &:hover {
+        background-color: #f9fafb;
+      }
+
+      &:last-child td {
+        border-bottom: none;
+      }
+    }
+
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      border-radius: 7px; // slightly rounded corners
+      appearance: none;
+      border: 1px solid #dfe1e7;
+      background-color: white;
+      cursor: pointer;
+      position: relative;
+
+      &:checked {
+        background-color: #191d23;
+        border: 1px solid #667085;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 3px;
+          left: 6.5px;
+          width: 4px;
+          height: 8px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+}

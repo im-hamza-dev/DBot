@@ -69,21 +69,35 @@
     }
   }
 
-  .resultBox {
-    margin-top: 2rem;
-    background: #111;
-    border: 1px solid #333;
-    padding: 1.5rem;
-    border-radius: 12px;
-    text-align: left;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+  .flexResults {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 30px;
+    flex-direction: row;
+    margin-top: 50px;
+    padding: 50px;
+    width: 100%;
+    .resultBox {
+      background: #111;
+      border: 1px solid #333;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: left;
+      width: 40%;
+      margin-left: auto;
+      margin-right: auto;
+      height: 100%;
+      min-height: 300px;
 
-    pre {
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      color: #00e676;
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        color: #00e676;
+      }
+    }
+    .employeesTableWrapper {
+      width: 60%;
     }
   }
 }

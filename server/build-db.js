@@ -2,10 +2,10 @@ import sqlite3 from "sqlite3";
 import fs from "fs";
 
 // Provide the path to your SQL file
-const sqlFilePath = "Chinook_Sqlite.sql";
+const sqlFilePath = "employees.sql";
 
 // Provide the desired name for your SQLite database
-const databaseName = "Chinook.db";
+const databaseName = "employees.db";
 
 // Open a connection to the SQLite database (it will be created if it doesn't exist)
 const db = new sqlite3.Database(databaseName);
