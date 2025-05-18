@@ -9,7 +9,12 @@ export const generateQuery = async (req, res) => {
     }
 
     const answer = await generateNaturalLanguageAnswer(queryStatement);
-    return res.status(200).json({ answer });
+    return res.status(200).json({
+      result: answer.result,
+      query: answer.query,
+      employees: answer.employees,
+      usage: answer.usage,
+    });
   } catch (err) {
     console.error("Error in /query:", err.message);
     if (err.message.includes("quota")) {

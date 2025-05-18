@@ -65,32 +65,50 @@ const sqlQueryGeneratorChain = RunnableSequence.from([
   }),
   sqlPrompt,
   model.bind({ stop: ["\nSQLResult:"] }),
-  new StringOutputParser(),
 ]);
 
 const fullChain = RunnableSequence.from([
-  RunnablePassthrough.assign({
-    query: sqlQueryGeneratorChain,
-  }),
   {
     schema: async () => db.getTableInfo(),
     question: (input) => input.question,
     query: (input) => input.query,
-    response: (input) => db.run(input.query),
+    response: async (input) => {
+      const cleanedQuery = input.query
+        ?.replace(/```sql/g, "")
+        .replace(/```/g, "")
+        .trim();
+      return db.run(cleanedQuery);
+    },
   },
   finalPrompt,
   model,
 ]);
 
 export const generateNaturalLanguageAnswer = async (question) => {
-  let res = await db.getTableInfo();
-  console.log(res, "--------------");
   try {
-    const finalResponse = await fullChain.invoke({
-      question: question.endsWith("?") ? question : `${question}?`,
+    console.log(question);
+    let userQuestion = question?.endsWith("?") ? question : `${question}?`;
+    const generatedQuery = await sqlQueryGeneratorChain.invoke({
+      question: userQuestion,
     });
+    console.log("generated:", generatedQuery?.response_metadata?.usage);
+    let totalTokens = generatedQuery?.response_metadata?.usage?.total_tokens;
+    let query = generatedQuery?.content;
+    const cleanQuery = query.replace(/```sql|```/g, "").trim();
 
-    return finalResponse.content;
+    const finalResponse = await fullChain.invoke({
+      question: userQuestion,
+      query: cleanQuery,
+    });
+    totalTokens += finalResponse.response_metadata?.usage?.total_tokens;
+    const result = await db.run(cleanQuery);
+    console.log("run prompt: ", totalTokens, finalResponse.response_metadata);
+    return {
+      usage: totalTokens,
+      result: finalResponse.content,
+      query: cleanQuery,
+      employees: result || [],
+    };
   } catch (error) {
     console.error("LangChain processing failed:", error.message, error);
     throw error;

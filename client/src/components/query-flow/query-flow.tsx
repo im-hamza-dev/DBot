@@ -33,7 +33,15 @@ const QueryFlow = () => {
       const data = await response.json();
 
       // Adjust this depending on your backend response structure
-      setResult(JSON.stringify(data.result, null, 2));
+      setResult(
+        `Generated SQL Query:\n${data.query}\n\nResult:\n${JSON.stringify(
+          data.result,
+          null,
+          2
+        )}`
+      );
+
+      setEmployees(JSON.parse(data.employees));
     } catch (err: any) {
       setError(err.message || "Something went wrong");
     } finally {

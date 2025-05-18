@@ -5,9 +5,9 @@
     border-radius: 12px;
     font-family: "Inter", sans-serif;
     border: 1px solid #e5e7eb !important;
-
+    overflow: hidden;
     th {
-      background: #eceff3;
+      background: #d8dce1;
       text-align: left;
       font-weight: 600;
       padding: 12px 24px;
@@ -26,6 +26,8 @@
 
     tr {
       text-align: left;
+      background: #eceff3;
+
       &:hover {
         background-color: #f9fafb;
       }
