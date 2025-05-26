@@ -86,12 +86,12 @@ const fullChain = RunnableSequence.from([
 
 export const generateNaturalLanguageAnswer = async (question) => {
   try {
-    console.log(question);
+    console.log("User Question:", question);
     let userQuestion = question?.endsWith("?") ? question : `${question}?`;
     const generatedQuery = await sqlQueryGeneratorChain.invoke({
       question: userQuestion,
     });
-    console.log("generated:", generatedQuery?.response_metadata?.usage);
+    console.log("Generated Query:", generatedQuery?.content);
     let totalTokens = generatedQuery?.response_metadata?.usage?.total_tokens;
     let query = generatedQuery?.content;
     const cleanQuery = query.replace(/```sql|```/g, "").trim();
@@ -102,12 +102,13 @@ export const generateNaturalLanguageAnswer = async (question) => {
     });
     totalTokens += finalResponse.response_metadata?.usage?.total_tokens;
     const result = await db.run(cleanQuery);
-    console.log("run prompt: ", totalTokens, finalResponse.response_metadata);
+    const employees = await db.run("SELECT * FROM Employee");
+    console.log("Final Run: ", totalTokens, finalResponse.content);
     return {
       usage: totalTokens,
       result: finalResponse.content,
       query: cleanQuery,
-      employees: result || [],
+      employees: employees || [],
     };
   } catch (error) {
     console.error("LangChain processing failed:", error.message, error);
