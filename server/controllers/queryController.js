@@ -1,4 +1,5 @@
 import { generateNaturalLanguageAnswer } from "../services/langchainservice.js";
+import { logTokenUsage } from "./tokenUsageController.js";
 
 export const generateQuery = async (req, res) => {
   try {
@@ -9,6 +10,13 @@ export const generateQuery = async (req, res) => {
     }
 
     const answer = await generateNaturalLanguageAnswer(queryStatement);
+    await logTokenUsage({
+      userId: "some-user-id", // placeholder, update after auth integration
+      question: queryStatement,
+      sqlQuery: answer.query,
+      output: answer.result,
+      tokensUsed: answer.usage,
+    });
     return res.status(200).json({
       result: answer.result,
       query: answer.query,

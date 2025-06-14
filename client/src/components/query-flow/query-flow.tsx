@@ -4,6 +4,7 @@ import styles from "./query-flow.module.scss";
 import { CustomTable } from "../custom-table/CustomTable";
 import { get } from "@/api/axiosinstance";
 import { useQueryFlow } from "./useQueryFlow";
+import TokensUsage from "../tokens-usage/tokens-usage";
 
 const QueryFlow: React.FC = () => {
   const { query, setQuery, result, loading, error, employees, handleSubmit } =
@@ -32,6 +33,7 @@ const QueryFlow: React.FC = () => {
 
   return (
     <div className={styles.sqlApp}>
+      <TokensUsage />
       <div className={styles.headerBadge}>🧠 Smart SQL Interface</div>
       <h1 className={styles.heading}>Execute SQL queries in seconds</h1>
       <p className={styles.subheading}>
