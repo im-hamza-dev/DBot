@@ -1,60 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./query-flow.module.scss";
 import { CustomTable } from "../custom-table/CustomTable";
 import { get } from "@/api/axiosinstance";
+import { useQueryFlow } from "./useQueryFlow";
 
-const QueryFlow = () => {
-  const [query, setQuery] = useState("");
-  const [result, setResult] = useState("");
-  const [employees, setEmployees] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setResult("");
-
-    try {
-      const response = await fetch("http://localhost:3000/api/query", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ queryStatement: query }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      // Adjust this depending on your backend response structure
-      setResult(
-        `Generated SQL Query:\n${data.query}\n\nResult:\n${JSON.stringify(
-          data.result,
-          null,
-          2
-        )}`
-      );
-
-      setEmployees(JSON.parse(data.employees));
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    get("/api/employees")
-      .then((res) => {
-        setEmployees(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+const QueryFlow: React.FC = () => {
+  const { query, setQuery, result, loading, error, employees, handleSubmit } =
+    useQueryFlow();
 
   const columnsEmployees = [
     { key: "EmployeeId" },
