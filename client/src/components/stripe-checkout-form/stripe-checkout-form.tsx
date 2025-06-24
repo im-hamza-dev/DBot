@@ -7,7 +7,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { BASE_API_URL } from "@/util/constants";
+import { post } from "@/api/axiosinstance";
 
 export const StripeCheckoutForm = () => {
   const stripe = useStripe();
@@ -31,23 +31,16 @@ export const StripeCheckoutForm = () => {
       return;
     }
 
-    const price = 12;
-
+    const price = 14;
     // Create the PaymentIntent and obtain clientSecret from your server endpoint
-    const res = await fetch(`${BASE_API_URL}/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        currency: "usd",
-        email: emailInput,
-        amount: price * 100,
-        paymentMethodType: "card",
-      }),
+    const res = await post(`/api/stripe-checkout/create-intent`, {
+      currency: "usd",
+      email: emailInput,
+      amount: price * 100,
+      paymentMethodType: "card",
     });
 
-    const { client_secret: clientSecret } = await res.json();
+    const { client_secret: clientSecret } = res;
 
     const { error } = await stripe.confirmPayment({
       //`Elements` instance that was used to create the Payment Element

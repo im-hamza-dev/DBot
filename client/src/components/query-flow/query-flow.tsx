@@ -2,7 +2,6 @@
 import React from "react";
 import styles from "./query-flow.module.scss";
 import { CustomTable } from "../custom-table/CustomTable";
-import { get } from "@/api/axiosinstance";
 import { useQueryFlow } from "./useQueryFlow";
 import TokensUsage from "../tokens-usage/tokens-usage";
 
