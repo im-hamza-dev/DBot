@@ -1,11 +1,65 @@
 .tokenUsage {
+  all: unset;
+  cursor: pointer;
   margin-left: auto;
   width: fit-content;
-
-  background: #1a1a1a;
-  color: #ccc;
+  float: right;
+  background: #4f46e5;
+  color: white;
   padding: 0.4rem 1rem;
   border-radius: 20px;
-  font-size: 1.4rem;
+  font-size: 1rem;
   margin-bottom: 1.5rem;
+  &:hover {
+    background-color: #736cff;
+  }
+}
+
+.upgradeContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  font-family: "Inter", sans-serif;
+  h1 {
+    margin-bottom: 30px;
+  }
+  p {
+    text-align: left;
+    font-size: 1.2rem;
+  }
+  .tokensStatus {
+    color: red;
+    &.tokensAvailable {
+      color: #9f9bfa;
+    }
+  }
+  .buttonsFlex {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    button {
+      all: unset;
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 20px;
+      color: white;
+      background-color: black;
+      &.upgradeBtn {
+        background-color: #4f46e5;
+        &:hover {
+          background-color: #736cff;
+        }
+      }
+      &.closeBtn {
+        background-color: red;
+        &:hover {
+          background-color: rgb(136, 16, 16);
+        }
+      }
+    }
+  }
 }

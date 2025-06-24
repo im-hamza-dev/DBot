@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styles from "./page.module.css";
 import QueryFlow from "@/components/query-flow/query-flow";
 
