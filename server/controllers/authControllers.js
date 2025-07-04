@@ -1,10 +1,12 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
+import connectMongo from "../db/mongodb.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export const register = async (req, res) => {
+  await connectMongo();
   const { email, password, username } = req.body;
 
   const userExists = await User.findOne({ email });
@@ -21,6 +23,8 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+  await connectMongo();
+
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -31,7 +35,5 @@ export const login = async (req, res) => {
 
   const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1d" });
 
-  res
-    .status(200)
-    .json({ token, user: { id: user._id, email: user.email, username } });
+  res.status(200).json({ token, user: { id: user._id, email: user.email } });
 };
